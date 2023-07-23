@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class CompoundYield
 {
-    [SerializeField] float _value;
-    public float Value => _value;
+    [SerializeField] int _value;
+    public int Value => _value;
 
     private const int Min = 0;
 
-    public CompoundYield(float value = 0)
+    public CompoundYield(int value = 0)
     {
         if (value < Min)
         {
