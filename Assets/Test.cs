@@ -7,11 +7,11 @@ public class Test : MonoBehaviour
     void Start()
     {
         //初期額
-        InitalAmount initalAmount = new InitalAmount(10000);
+        InitalAmount initalAmount = new InitalAmount(5000000);
         //積立額
-        ReserveAmount reserveAmount = new ReserveAmount(10000);
+        ReserveAmount reserveAmount = new ReserveAmount(0);
         //積立年数
-        AccumulationPeriod accumulationPeriod = new AccumulationPeriod(2);
+        AccumulationPeriod accumulationPeriod = new AccumulationPeriod(30);
         //利率
         CompoundYield compoundYield = new CompoundYield(3);
 
@@ -20,8 +20,8 @@ public class Test : MonoBehaviour
         TotalReserveAmount totalReserveAmount = new TotalReserveAmount(
             initalAmount, reserveAmount, accumulationPeriod, compoundYield);
 
-        totalReserveAmount.PrincipalCalculation();
-        //totalReserveAmount.RatePrincipalCaluculation();
+        //totalReserveAmount.PrincipalCalculation();
+        totalReserveAmount.RatePrincipalCaluculation();
 
 
         

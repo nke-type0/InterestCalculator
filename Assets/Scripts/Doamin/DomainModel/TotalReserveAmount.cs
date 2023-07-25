@@ -53,7 +53,6 @@ public class TotalReserveAmount
             for (int j = 0; j < 12; j++)
             {
                 principal += _reserveAmount.Amaunt;
-                Debug.Log(principal);
                 _principals.Add(principal);
             }
         }
