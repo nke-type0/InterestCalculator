@@ -12,27 +12,32 @@ public class Main1Presenter : MonoBehaviour
     private async void Start()
     {
 
-        //仮止め実装
-        ////初期額
-        //InitalAmount initalAmount = new InitalAmount(5000000);
-        ////積立額
-        //ReserveAmount reserveAmount = new ReserveAmount(0);
-        ////積立年数
-        //AccumulationPeriod accumulationPeriod = new AccumulationPeriod(30);
-        ////利率
-        //CompoundYield compoundYield = new CompoundYield(3);
-
-        //TotalReserveAmount totalReserveAmount = new TotalReserveAmount(
-        //    initalAmount, reserveAmount, accumulationPeriod, compoundYield);
-
-        ////totalReserveAmount.PrincipalCalculation();
-        //totalReserveAmount.RatePrincipalCaluculation();
-
-
-
 
         _main1View.CaluculateButton.OnClickAsObservable()
-                .Subscribe(_ => Debug.Log("")).AddTo(this);
+                .Subscribe(_ =>
+                {
+
+                    //利率
+                    CompoundYield compoundYield = new CompoundYield(int.Parse(_main1View.CompoundYieldInput.text.ToString()));
+
+                    //初期額
+                    InitalAmount initalAmount = new InitalAmount(int.Parse(_main1View.InitialAmountInput.text.ToString()));
+
+                    //積立額
+                    ReserveAmount reserveAmount = new ReserveAmount(int.Parse(_main1View.ReserveAmountInput.text.ToString()));
+
+                    //積立年数
+                    AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(_main1View.AccumulationPeriodInput.text.ToString()));
+
+
+                    TotalReserveAmount totalReserveAmount = new TotalReserveAmount(
+                        initalAmount, reserveAmount, accumulationPeriod, compoundYield);
+
+                    //totalReserveAmount.PrincipalCalculation();
+                    totalReserveAmount.RatePrincipalCaluculation();
+
+
+                }).AddTo(this);
 
     }
 

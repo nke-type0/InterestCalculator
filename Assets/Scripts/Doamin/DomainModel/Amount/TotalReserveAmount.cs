@@ -89,7 +89,7 @@ public class TotalReserveAmount
                 rate = afterPrincipal * (comoundYield / 12);
                 afterPrincipal += (int)rate;
                 _afterPrincipals.Add(afterPrincipal);
-                //Debug.Log(afterPrincipal);
+                Debug.Log(afterPrincipal);
             }
 
             ////1年後金利加算(年複利)

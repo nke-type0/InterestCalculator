@@ -4,18 +4,6 @@ using UnityEngine.UI;
 
 public class Main1View : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI _compoundYieldText;
-    public TextMeshProUGUI CompoundYieldText => _compoundYieldText;
-
-    [SerializeField] TextMeshProUGUI _initialAmountText;
-    public TextMeshProUGUI InitialAmountText => _initialAmountText;
-
-    [SerializeField] TextMeshProUGUI _reserveAmountText;
-    public TextMeshProUGUI ReserveAmountText => _reserveAmountText;
-
-    [SerializeField] TextMeshProUGUI _accumulationPeriodText;
-    public TextMeshProUGUI AccumulationPeriodText => _accumulationPeriodText;
-
 
     [SerializeField] TMP_InputField _compoundYieldInput;
     public TMP_InputField CompoundYieldInput => _compoundYieldInput;
@@ -30,7 +18,11 @@ public class Main1View : MonoBehaviour
     public TMP_InputField AccumulationPeriodInput => _accumulationPeriodInput;
 
 
+    [SerializeField] TextMeshProUGUI _totalReserveAmountText;
+    public TextMeshProUGUI TotalReserveAmountText => _totalReserveAmountText;
+
     [SerializeField] Button _caluculateButton;
     public Button CaluculateButton => _caluculateButton;
+
 
 }
