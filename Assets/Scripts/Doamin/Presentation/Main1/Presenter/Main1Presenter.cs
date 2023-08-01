@@ -32,7 +32,12 @@ public class Main1Presenter : MonoBehaviour
                     initalAmount, reserveAmount, accumulationPeriod, compoundYield);
 
                 //totalReserveAmount.PrincipalCalculation();
-                totalReserveAmount.RatePrincipalCaluculation();
+                var (result1, result2) = totalReserveAmount.MonthlyInterestCaluculation();
+                foreach (var child in result1)
+                {
+                    Debug.Log(child);
+                }
+
             }).AddTo(this);
 
     }

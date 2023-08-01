@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class TotalReserveAmount
@@ -14,16 +13,7 @@ public class TotalReserveAmount
     //運用利回り
     private CompoundYield _compoundYield;
 
-
-    //元金
-    public List<int> Principals => _principals;
-    private List<int> _principals = new List<int>();
-    //繰入後の元金
-    public List<int> AfterPrincipals => _afterPrincipals;
-    private List<int> _afterPrincipals = new List<int>();
-    //利息
-    public List<float> PrincipalsRates => _principalsRates;
-    private List<float> _principalsRates = new List<float>();
+    private const int Month = 12;
 
 
     public TotalReserveAmount(
@@ -40,92 +30,104 @@ public class TotalReserveAmount
     }
 
 
-
     //元金計算
-    public void PrincipalCalculation()
+    public List<int> PrincipalCalculation()
     {
-        _principals = new List<int>();
+        var principals = new List<int>();
 
         int principal = _initalAmount.Amaunt;
-        _principals.Add(principal);
+        principals.Add(principal);
         for (int i = 0; i < _accumulationPeriod.Value; i++)
         {
             for (int j = 0; j < 12; j++)
             {
                 principal += _reserveAmount.Amaunt;
-                _principals.Add(principal);
+                principals.Add(principal);
             }
         }
 
+        var result = new List<int>(principal);
+        return result;
     }
 
-    //繰入後元金計算
-    public void RatePrincipalCaluculation()
-    {
-        _afterPrincipals = new List<int>();
-        _principalsRates = new List<float>();
 
-        //元金, 繰越後元金
+    //月複利計算(タプル返却があまりよくないが現状思いつかないのでこれで対応
+    public (List<int>, List<float>) MonthlyInterestCaluculation()
+    {
+        var afterMonthPrincipals = new List<int>();
+        var monthRates = new List<float>();
+
+        //繰越後元金
         int afterPrincipal = _initalAmount.Amaunt;
-        _afterPrincipals.Add(afterPrincipal);
 
         //金利
         float comoundYield = _compoundYield.Value / 100.0f;
         float rate = 0;
 
-        //年数
+
         for (int i = 0; i < _accumulationPeriod.Value; i++)
         {
-            //1年間
-            for (int j = 0; j < 12; j++)
+            for (int j = 0; j < Month; j++)
             {
+                //積み立て額を加算する
                 afterPrincipal += _reserveAmount.Amaunt;
-                _afterPrincipals.Add(afterPrincipal);
-
-                rate += afterPrincipal * (comoundYield / 12);
-                _principalsRates.Add(rate);
-
-                //毎回金利加算(月複利)
-                rate = afterPrincipal * (comoundYield / 12);
+                //金利を計算する
                 afterPrincipal += (int)rate;
-                _afterPrincipals.Add(afterPrincipal);
-                Debug.Log(afterPrincipal);
+                afterMonthPrincipals.Add(afterPrincipal);
+
+                //金利データを計算する
+                rate += afterPrincipal * (comoundYield / 12);
+                monthRates.Add(rate);
+                //計算金利
+                rate = afterPrincipal * (comoundYield / 12);
+
+            }
+        }
+
+        var result1 = new List<int>(afterMonthPrincipals);
+        var result2 = new List<float>(monthRates);
+        return (result1, result2);
+    }
+
+
+    //年利計算
+    public (List<int>, List<float>) YearthInterestCaluculation()
+    {
+        var afterYearthPrincipals = new List<int>();
+        var yearthRates = new List<float>();
+
+        //繰越後元金
+        int afterPrincipal = _initalAmount.Amaunt;
+
+        //金利
+        float comoundYield = _compoundYield.Value / 100.0f;
+        float rate = 0;
+
+        for (int i = 0; i < _accumulationPeriod.Value; i++)
+        {
+            for (int j = 0; j < Month; j++)
+            {
+                //積立額を追加する
+                afterPrincipal += _reserveAmount.Amaunt;
+
+                //データ用金利計算
+                rate += afterPrincipal * (comoundYield / 12);
+                yearthRates.Add(rate);
             }
 
-            ////1年後金利加算(年複利)
-            //principal += (int)rate;
-            //Debug.Log(principal);
-            //rate = 0;
+            //年金利を加算する
+            afterPrincipal += (int)rate;
+            afterYearthPrincipals.Add(afterPrincipal);
         }
+
+        var result1 = new List<int>(afterYearthPrincipals);
+        var result2 = new List<float>(yearthRates);
+        return (result1, result2);
     }
 
 
 
 }
-
-
-
-////利息計算
-//public List<float> RateCaluculation()
-//{
-//    float comoundYield = _compoundYield.Value / 100.0f;
-//    float rate = 0;
-//    foreach (var principal in _principals)
-//    {
-//        rate += principal * comoundYield / 12;
-//        _principalsRates.Add(rate);
-//    }
-
-//    List<float> Test = new List<float>(_principalsRates);
-//    return Test;
-//}
-
-
-
-
-
-
-
 
 
 
