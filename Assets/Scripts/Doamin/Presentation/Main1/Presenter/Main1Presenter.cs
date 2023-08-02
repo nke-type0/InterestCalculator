@@ -28,15 +28,31 @@ public class Main1Presenter : MonoBehaviour
                 AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(_main1View.AccumulationPeriodInput.text.ToString()));
 
 
-                TotalReserveAmount totalReserveAmount = new TotalReserveAmount(
-                    initalAmount, reserveAmount, accumulationPeriod, compoundYield);
+                //IAmauntCaluculation monthly = new MonthlyCaluculation(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
+                //var (result1, result2) = monthly.InterestCaluculation();
+                IAmauntCaluculation year = new YearthCaluculation(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
+                //var principals = year.PrincipalCalculation();
+                //foreach (var child in principals)
+                //{
+                //    Debug.Log(child);
+                //}
+                var (result1, result2) = year.InterestCaluculation();
+                //foreach (var child in result1)
+                //{
+                //    Debug.Log(child);
+                //}
 
-                //totalReserveAmount.PrincipalCalculation();
-                var (result1, result2) = totalReserveAmount.MonthlyInterestCaluculation();
-                foreach (var child in result1)
+                foreach (var child in result2)
                 {
                     Debug.Log(child);
                 }
+
+                var tax = year.TaxCalculation(20.315f);
+                foreach (var child in tax)
+                {
+                    //Debug.Log(child);
+                }
+
 
             }).AddTo(this);
 
