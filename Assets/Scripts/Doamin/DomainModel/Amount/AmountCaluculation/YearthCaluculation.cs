@@ -16,6 +16,7 @@ public class YearthCaluculation : IAmauntCaluculation
 
     private List<int> _afterPrincipals = new List<int>();
     private List<float> _interests = new List<float>();
+    private List<int>  _results = new List<int>();
 
     public YearthCaluculation(
         InitalAmount initalAmount,
@@ -95,4 +96,34 @@ public class YearthCaluculation : IAmauntCaluculation
         return taxPrincipals;
     }
 
+    //税引後元金合計(元金＋複利後利息)
+    public List<int> ResultCalculation(List<int> principals, List<int> taxPrincipals)
+    {
+        _results = new List<int>();
+        
+        int num = 1;
+        int taxNum = 0;
+        foreach (var child in principals)
+        {
+            if (num % 12 == 0)
+            {
+                var result = child + taxPrincipals[taxNum++];
+                _results.Add(result);
+                num = 1;
+            }
+            num++;
+        }
+        var results = new List<int>(_results);
+        return results;
+    }
+
+    public int TotalReverseAmount()
+    {
+        int totalReserverAmaunt = 0;
+        foreach (var child in _results)
+        {
+            totalReserverAmaunt = child;
+        }
+        return totalReserverAmaunt;
+    }
 }

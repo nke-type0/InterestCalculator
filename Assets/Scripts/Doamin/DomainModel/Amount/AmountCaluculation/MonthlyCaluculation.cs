@@ -98,4 +98,13 @@ public class MonthlyCaluculation : IAmauntCaluculation
         return taxPrincipals;
     }
 
+    public List<int> ResultCalculation(List<int> principals, List<int> taxPrincipals)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public int TotalReverseAmount()
+    {
+        throw new System.NotImplementedException();
+    }
 }
