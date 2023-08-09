@@ -8,9 +8,40 @@ public class Main1Presenter : MonoBehaviour
 {
 
     [Inject] private Main1View _main1View;
+    [Inject] private Main1Model _main1Model;
 
     private async void Start()
     {
+
+        //入力処理
+        _main1View.InitialAmountInput.onEndEdit.AsObservable().Subscribe(str =>
+        {
+            Debug.Log("!!!" + str);
+            _main1View.SetErrorInitialAmountText(false);
+            _main1Model.PostInitalAmount(str);
+        }).AddTo(this);
+
+        _main1View.ReserveAmountInput.onEndEdit.AsObservable().Subscribe(str =>
+        {
+            Debug.Log("!!!" + str);
+            _main1View.SetErrorReserveAmountText(false);
+            _main1Model.PostReserveAmount(str);
+        }).AddTo(this);
+
+        _main1View.AccumulationPeriodInput.onEndEdit.AsObservable().Subscribe(str =>
+        {
+            Debug.Log("!!!" + str);
+            _main1View.SetErrorAccumulationPeriodText(false);
+            _main1Model.PostAccumulationPeriod(str);
+        }).AddTo(this);
+
+        _main1View.CompoundYieldInput.onEndEdit.AsObservable().Subscribe(str =>
+        {
+            Debug.Log("!!!" + str);
+            _main1View.SetErrorCompoundYieldText(false);
+            _main1Model.PostCommandYeld(str);
+        }).AddTo(this);
+
 
         _main1View.CaluculateButton.onClick.AsObservable()
             .Subscribe(_ =>
@@ -64,6 +95,34 @@ public class Main1Presenter : MonoBehaviour
                 _main1View.SetTotalReserveAmount(totalReserverAmaunt.ToString());
 
             }).AddTo(this);
+
+
+
+
+        //エラー処理
+        _main1Model.ErrorInitialAmountReact.Subscribe(ex =>
+        {
+            Debug.Log(ex);
+            _main1View.SetErrorInitialAmountText(true);
+        }).AddTo(this);
+
+        _main1Model.ErrorReserveAmountReact.Subscribe(ex =>
+        {
+            _main1View.SetErrorReserveAmountText(true);
+        }).AddTo(this);
+
+        _main1Model.ErrorAccumulationPeriodReact.Subscribe(ex =>
+        {
+            _main1View.SetErrorAccumulationPeriodText(true);
+        }).AddTo(this);
+
+        _main1Model.ErrorCommandYeldReact.Subscribe(ex =>
+        {
+            _main1View.SetErrorCompoundYieldText(true);
+        }).AddTo(this);
+
+
+
 
     }
 
