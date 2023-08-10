@@ -45,28 +45,8 @@ public class Main1View : MonoBehaviour
     public TextMeshProUGUI ErrorCompoundYieldText => _errorCompoundYieldText;
 
 
-    public void SetTotalReserveAmount(string text)
+    public void SetTotalReserveAmount(int result)
     {
-        _totalReserveAmountText.text = text;
-    }
-
-    public void SetErrorInitialAmountText(bool flag)
-    {
-        _errorInitialAmauntText.gameObject.SetActive(flag);
-    }
-
-    public void SetErrorReserveAmountText(bool flag)
-    {
-        _errorReserveAmountText.gameObject.SetActive(flag);
-    }
-
-    public void SetErrorAccumulationPeriodText(bool flag)
-    {
-        _errorAccumulationPeriodText.gameObject.SetActive(flag);
-    }
-
-    public void SetErrorCompoundYieldText(bool flag)
-    {
-        _errorCompoundYieldText.gameObject.SetActive(flag);
+        _totalReserveAmountText.text = result.ToString("N0") + "円";
     }
 }
