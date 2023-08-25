@@ -1,20 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class MonthlyCaluculation : IAmauntCaluculation
+//同じロジック、似たようなロジックだったとしても概念が違えばDRYにすべきではない
+//DRY的に異なるもの同士を無理にDRYにすると密結合化する
+
+[Serializable]
+public class MonthlyCaluculation
 {
     //初期額
+    [SerializeField]
     private InitalAmount _initalAmount;
     //積み立て額
+    [SerializeField]
     private ReserveAmount _reserveAmount;
     //積み立て期間
+    [SerializeField]
     private AccumulationPeriod _accumulationPeriod;
     //運用利回り
+    [SerializeField]
     private CompoundYield _compoundYield;
 
     private const int Month = 12;
 
-    private List<int> _afterPrincipals = new List<int>();
+    private List<ulong> _afterPrincipals = new List<ulong>();
     private List<float> _interests = new List<float>();
 
     public MonthlyCaluculation(
@@ -31,14 +40,14 @@ public class MonthlyCaluculation : IAmauntCaluculation
     }
 
     //元本計算
-    public List<int> PrincipalCalculation()
+    public List<ulong> PrincipalCalculation()
     {
-        var principals = new List<int>();
+        var principals = new List<ulong>();
 
-        int principal = _initalAmount.Amaunt;
+        ulong principal = _initalAmount.Amaunt;
         for (int i = 0; i < _accumulationPeriod.Value; i++)
         {
-            for (int j = 0; j < Month; j++)
+            for (ulong j = 0; j < Month; j++)
             {
                 principal += _reserveAmount.Amaunt;
                 principals.Add(principal);
@@ -48,13 +57,13 @@ public class MonthlyCaluculation : IAmauntCaluculation
     }
 
     //複利計算(月利)
-    public (List<int>, List<float>) InterestCaluculation()
+    public (List<ulong>, List<float>) InterestCaluculation()
     {
-        _afterPrincipals = new List<int>();
+        _afterPrincipals = new List<ulong>();
         _interests = new List<float>();
 
         //繰越後元金
-        int afterPrincipal = _initalAmount.Amaunt;
+        ulong afterPrincipal = _initalAmount.Amaunt;
 
         //金利
         float comoundYield = _compoundYield.Value / 100.0f;
@@ -69,7 +78,7 @@ public class MonthlyCaluculation : IAmauntCaluculation
                 afterPrincipal += _reserveAmount.Amaunt;
 
                 //繰越元金を計算する
-                afterPrincipal += (int)rate;
+                afterPrincipal += (ulong)rate;
                 rate = afterPrincipal * (comoundYield / 12);
                 _afterPrincipals.Add(afterPrincipal);
 
@@ -79,31 +88,31 @@ public class MonthlyCaluculation : IAmauntCaluculation
             }
         }
 
-        var result1 = new List<int>(_afterPrincipals);
+        var result1 = new List<ulong>(_afterPrincipals);
         var result2 = new List<float>(_interests);
         return (result1, result2);
     }
 
     //税金計算
-    public List<int> TaxCalculation(float tax)
+    public List<ulong> TaxCalculation(float tax)
     {
-        var taxPrincipals = new List<int>();
+        var taxPrincipals = new List<ulong>();
 
         for (int i = 0; i < _interests.Count; i++)
         {
-            var result = (int)(_interests[i] * ((100 - tax) / 100.0f));
+            var result = (ulong)(_interests[i] * ((100 - tax) / 100.0f));
             taxPrincipals.Add(result);
         }
 
         return taxPrincipals;
     }
 
-    public List<int> ResultCalculation(List<int> principals, List<int> taxPrincipals)
+    public List<ulong> ResultCalculation(List<ulong> principals, List<ulong> taxPrincipals)
     {
         throw new System.NotImplementedException();
     }
 
-    public int TotalReverseAmount()
+    public ulong TotalReverseAmount()
     {
         throw new System.NotImplementedException();
     }

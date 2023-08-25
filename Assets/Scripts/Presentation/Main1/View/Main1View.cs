@@ -44,9 +44,16 @@ public class Main1View : MonoBehaviour
     [SerializeField] TextMeshProUGUI _errorCompoundYieldText;
     public TextMeshProUGUI ErrorCompoundYieldText => _errorCompoundYieldText;
 
-
-    public void SetTotalReserveAmount(int result)
+    public void SetTotalReserveAmount(ulong result)
     {
         _totalReserveAmountText.text = result.ToString("N0") + "円";
     }
+
+    public void IntaractCalculateButton(bool flag)
+    {
+        _caluculateButton.Interactable(flag);
+    }
+
+
+    //マージすれば良いのかな？
 }

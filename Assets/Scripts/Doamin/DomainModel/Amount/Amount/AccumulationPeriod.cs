@@ -10,7 +10,7 @@ public class AccumulationPeriod
     private const int Min = 1;
     private const int Max = 999;
 
-    public AccumulationPeriod(int value = 1)
+    public AccumulationPeriod(int value)
     {
         if (value < Min)
         {
@@ -21,5 +21,14 @@ public class AccumulationPeriod
             throw new ArgumentException("積み立て期間は" + Max + "より小さな値を指定してください");
         }
         this._value = value;
+    }
+
+    public bool CheckInstance()
+    {
+        if (ReferenceEquals(this, null))
+        {
+            return false;
+        }
+        return true;
     }
 }
