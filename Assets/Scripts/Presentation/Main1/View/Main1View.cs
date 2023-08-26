@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using System.Linq;
+using System.Collections.Generic;
 
 
 //初期投資額 10桁の整数のみ
@@ -49,11 +51,6 @@ public class Main1View : MonoBehaviour
         _totalReserveAmountText.text = result.ToString("N0") + "円";
     }
 
-    public void IntaractCalculateButton(bool flag)
-    {
-        _caluculateButton.Interactable(flag);
-    }
-
-
-    //マージすれば良いのかな？
 }
+
+

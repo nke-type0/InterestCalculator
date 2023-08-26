@@ -5,6 +5,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
+//DBの仕事
+
 public class AmountRepository
 {
     private readonly AmountScriptableObject _amountScriptable;

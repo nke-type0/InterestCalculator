@@ -9,7 +9,6 @@ using System.Linq;
 //Domain層, Infra層のメソッドを呼び出すだけにできれば理想
 //(UI層のPresenterのようにできれば理想)
 
-
 public class AmountApplication
 {
     private readonly AmountRepository _amountRepository;
@@ -25,12 +24,12 @@ public class AmountApplication
         this._yearthRepository = yearthCaluculation;
     }
 
-
     //初期化(Post)ローカルorリモート
     public async UniTask PostAmountAsync()
     {
         await _amountRepository.PostAmountAsync();
     }
+
 
     //元本計算
     public async UniTask PrincipalCalculationAsync(int id)
@@ -56,6 +55,17 @@ public class AmountApplication
     public async UniTask ResultCalculationAsync()
     {
         _yearthRepository.ResultCalculation();
+    }
+
+
+    public async UniTask<ulong> YeathCalculation(int id)
+    {
+        Amount amount = _amountRepository.FindById(id);
+        _yearthRepository.PrincipalCalculation(amount);
+        _yearthRepository.InterestCaluculation(amount);
+        _yearthRepository.TaxCalculation();
+        _yearthRepository.ResultCalculation();
+        return _yearthRepository.GetResultAmount();
     }
 
 

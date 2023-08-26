@@ -6,16 +6,11 @@ using UniRx;
 using UnityEngine;
 using Zenject;
 
-//できていない場合は計算ボタンを押せなくするが正しい挙動！！
-//4つの値が正常に確認できた際に押せるように変更する
-//そうすれば引数に取る必要はなくなる
-
 public class Main1Model : MonoBehaviour
 {
 
     [Inject] private AmountApplication _amountApplication;
 
-    //Error通知
     private ReactiveProperty<Exception> _errorInitialAmountReact = new ReactiveProperty<Exception>();
     public IObservable<Exception> ErrorInitialAmountReact => _errorInitialAmountReact.SkipLatestValueOnSubscribe();
 
@@ -28,19 +23,20 @@ public class Main1Model : MonoBehaviour
     private ReactiveProperty<Exception> _errorCommandYeldReact = new ReactiveProperty<Exception>();
     public IObservable<Exception> ErrorCommandYeldReact => _errorCommandYeldReact.SkipLatestValueOnSubscribe();
 
-    //Error通知をまとめてReactiveを作って、一つの通知にするそれを見てボタンをオンオフする
-    //変更があった際に通知して、全て確認して
+    private ReactiveProperty<Exception> _confirmCalcuButtonReact = new ReactiveProperty<Exception>();
+    public IObservable<Exception> ConfirmCalcuButtonReact => _confirmCalcuButtonReact.SkipLatestValueOnSubscribe();
 
-    private ReactiveProperty<Unit> _errorReact = new ReactiveProperty<Unit>();
-    public IObservable<Unit> ErrorReact => _errorReact.SkipLatestValueOnSubscribe();
-
-
+    /// <summary>
+    /// DB初期化
+    /// </summary>
     private async void Start()
     {
         await _amountApplication.PostAmountAsync();
     }
 
-
+    /// <summary>
+    /// 入力値に対する例外処理
+    /// </summary>
     //初期額
     public void InitalAmount(string str)
     {
@@ -51,7 +47,7 @@ public class Main1Model : MonoBehaviour
         catch (Exception ex)
         {
             _errorInitialAmountReact.Value = ex;
-            throw ex;
+            _confirmCalcuButtonReact.Value = ex;
         }
     }
 
@@ -65,7 +61,7 @@ public class Main1Model : MonoBehaviour
         catch (Exception ex)
         {
             _errorReserveAmountReact.Value = ex;
-            throw ex;
+            _confirmCalcuButtonReact.Value = ex;
         }
     }
 
@@ -79,7 +75,7 @@ public class Main1Model : MonoBehaviour
         catch (Exception ex)
         {
             _errorAccumulationPeriodReact.Value = ex;
-            throw ex;
+            _confirmCalcuButtonReact.Value = ex;
         }
     }
 
@@ -93,9 +89,13 @@ public class Main1Model : MonoBehaviour
         catch (Exception ex)
         {
             _errorCommandYeldReact.Value = ex;
-            throw ex;
+            _confirmCalcuButtonReact.Value = ex;
         }
     }
+
+
+
+
 
 
 
@@ -134,7 +134,7 @@ public class Main1Model : MonoBehaviour
     //        var totalReserverAmaunt = yearth.GetResultAmount();
     //        return totalReserverAmaunt;
     //    }
-    //    catch(Exception ex)
+    //    catch (Exception ex)
     //    {
     //        throw ex;
     //    }
