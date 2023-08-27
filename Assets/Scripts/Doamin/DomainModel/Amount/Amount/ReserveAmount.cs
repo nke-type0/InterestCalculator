@@ -4,28 +4,30 @@ using UnityEngine;
 [Serializable]
 public class ReserveAmount
 {
-    [SerializeField] ulong _amaunt;
-    public ulong Amaunt => _amaunt;
+    [SerializeField] ulong _amount;
+    public ulong Amount => _amount;
 
-    private const int Min = 0;
+    private const byte Min = 0;
+    private const byte DigitMax = 7;
 
-    public ReserveAmount(ulong amaunt)
+    public ReserveAmount(ulong amount)
     {
-        if (amaunt < Min)
+        if (amount < Min)
         {
             throw new ArgumentException("積み立て額は0以上を指定してください");
         }
 
-        this._amaunt = amaunt;
+        if (DigitMax < Digit(amount))
+        {
+            throw new ArgumentException("初期額は7桁以下を指定してください");
+        }
+
+        this._amount = amount;
     }
 
-    public bool CheckInstance()
+    private ulong Digit(ulong num)
     {
-        if (ReferenceEquals(this, null))
-        {
-            return false;
-        }
-        return true;
+        return (num == 0) ? 1 : ((ulong)Mathf.Log10(num) + 1);
     }
 }
 

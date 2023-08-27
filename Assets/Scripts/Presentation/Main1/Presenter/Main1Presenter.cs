@@ -66,14 +66,15 @@ public class Main1Presenter : MonoBehaviour
         }).AddTo(this);
 
 
-
         //計算ボタン押された時
-        _main1View.CaluculateButton.onClick.AsObservable()
-            .Subscribe(async _ =>
+        _main1View.CaluculateButton.onClick.AsObservable().Subscribe(_ =>
             {
-                //計算処理をModelで叩きたい
-                //var result = _main1Model.YearthCalculation(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
-                //_main1View.SetTotalReserveAmount(result);
+                var result = _main1Model.Calculation(
+                    _main1View.InitialAmountInput.text.ToString(),
+                    _main1View.ReserveAmountInput.text.ToString(),
+                    _main1View.AccumulationPeriodInput.text.ToString(),
+                    _main1View.CompoundYieldInput.text.ToString());
+                _main1View.SetTotalReserveAmount(result);
             }).AddTo(this);
 
 

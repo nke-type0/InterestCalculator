@@ -30,43 +30,56 @@ public class AmountApplication
         await _amountRepository.PostAmountAsync();
     }
 
-
-    //元本計算
-    public async UniTask PrincipalCalculationAsync(int id)
+    //入力されたものを計算処理
+    public ulong Calculation(Amount amount)
     {
-        Amount amount = _amountRepository.FindById(id);
-        _yearthRepository.PrincipalCalculation(amount);
-    }
-
-    //複利計算
-    public async UniTask InterestCaluculationAsync(int id)
-    {
-        Amount amount = _amountRepository.FindById(id);
-        _yearthRepository.InterestCaluculation(amount);
-    }
-
-    //税金計算
-    public async UniTask TaxCalculationAsync()
-    {
-        _yearthRepository.TaxCalculation();
-    }
-
-    //税引後元金合計(元金＋複利後利息)
-    public async UniTask ResultCalculationAsync()
-    {
-        _yearthRepository.ResultCalculation();
-    }
-
-
-    public async UniTask<ulong> YeathCalculation(int id)
-    {
-        Amount amount = _amountRepository.FindById(id);
         _yearthRepository.PrincipalCalculation(amount);
         _yearthRepository.InterestCaluculation(amount);
         _yearthRepository.TaxCalculation();
         _yearthRepository.ResultCalculation();
         return _yearthRepository.GetResultAmount();
     }
+
+
+
+    ////元本計算
+    //public async UniTask PrincipalCalculationAsync(int id)
+    //{
+    //    //DBからデータを取得(ここをただの引数、Amountに変えて入力値から持って来ればローカルのみのものになる。。。)
+    //    Amount amount = _amountRepository.FindById(id);
+
+    //    //これで計算を動かしてる
+    //    _yearthRepository.PrincipalCalculation(amount);
+    //}
+
+    ////複利計算
+    //public async UniTask InterestCaluculationAsync(int id)
+    //{
+    //    Amount amount = _amountRepository.FindById(id);
+    //    _yearthRepository.InterestCaluculation(amount);
+    //}
+
+    ////税金計算
+    //public async UniTask TaxCalculationAsync()
+    //{
+    //    _yearthRepository.TaxCalculation();
+    //}
+
+    ////税引後元金合計(元金＋複利後利息)
+    //public async UniTask ResultCalculationAsync()
+    //{
+    //    _yearthRepository.ResultCalculation();
+    //}
+
+    //public async UniTask<ulong> YeathCalculation(int id)
+    //{
+    //    Amount amount = _amountRepository.FindById(id);
+    //    _yearthRepository.PrincipalCalculation(amount);
+    //    _yearthRepository.InterestCaluculation(amount);
+    //    _yearthRepository.TaxCalculation();
+    //    _yearthRepository.ResultCalculation();
+    //    return _yearthRepository.GetResultAmount();
+    //}
 
 
 

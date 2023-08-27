@@ -7,12 +7,6 @@ using System.Linq;
 using System.Collections.Generic;
 
 
-//初期投資額 10桁の整数のみ
-//毎月の積み立て額 8桁の整数以下のみ
-//期間　99年整数以下
-//利回り　50%少数以下
-
-
 public class Main1View : MonoBehaviour
 {
     [SerializeField] TMP_InputField _initialAmountInput;

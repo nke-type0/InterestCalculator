@@ -7,8 +7,8 @@ public class AccumulationPeriod
     [SerializeField] int _value;
     public int Value => _value;
 
-    private const int Min = 1;
-    private const int Max = 999;
+    private const byte Min = 1;
+    private const byte Max = 50;
 
     public AccumulationPeriod(int value)
     {
@@ -21,14 +21,5 @@ public class AccumulationPeriod
             throw new ArgumentException("積み立て期間は" + Max + "より小さな値を指定してください");
         }
         this._value = value;
-    }
-
-    public bool CheckInstance()
-    {
-        if (ReferenceEquals(this, null))
-        {
-            return false;
-        }
-        return true;
     }
 }

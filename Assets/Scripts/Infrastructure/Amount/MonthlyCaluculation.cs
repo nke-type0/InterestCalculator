@@ -44,12 +44,12 @@ public class MonthlyCaluculation
     {
         var principals = new List<ulong>();
 
-        ulong principal = _initalAmount.Amaunt;
+        ulong principal = _initalAmount.Amount;
         for (int i = 0; i < _accumulationPeriod.Value; i++)
         {
             for (ulong j = 0; j < Month; j++)
             {
-                principal += _reserveAmount.Amaunt;
+                principal += _reserveAmount.Amount;
                 principals.Add(principal);
             }
         }
@@ -63,7 +63,7 @@ public class MonthlyCaluculation
         _interests = new List<float>();
 
         //繰越後元金
-        ulong afterPrincipal = _initalAmount.Amaunt;
+        ulong afterPrincipal = _initalAmount.Amount;
 
         //金利
         float comoundYield = _compoundYield.Value / 100.0f;
@@ -75,7 +75,7 @@ public class MonthlyCaluculation
             for (int j = 0; j < Month; j++)
             {
                 //積み立て額を加算する
-                afterPrincipal += _reserveAmount.Amaunt;
+                afterPrincipal += _reserveAmount.Amount;
 
                 //繰越元金を計算する
                 afterPrincipal += (ulong)rate;

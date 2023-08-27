@@ -6,6 +6,11 @@ using UniRx;
 using UnityEngine;
 using Zenject;
 
+//初期投資額 9桁の整数のみ
+//毎月の積み立て額 7桁の整数以下のみ
+//期間　1~50年
+//利回り　年利1~20%
+
 public class Main1Model : MonoBehaviour
 {
 
@@ -38,11 +43,11 @@ public class Main1Model : MonoBehaviour
     /// 入力値に対する例外処理
     /// </summary>
     //初期額
-    public void InitalAmount(string str)
+    public void InitalAmount(string initial)
     {
         try
         {
-            InitalAmount initalAmount = new InitalAmount(ulong.Parse(str.ToString()));
+            InitalAmount initalAmount = new InitalAmount(ulong.Parse(initial.ToString()));
         }
         catch (Exception ex)
         {
@@ -52,11 +57,11 @@ public class Main1Model : MonoBehaviour
     }
 
     //積立額
-    public void ReserveAmount(string str)
+    public void ReserveAmount(string reserve)
     {
         try
         {
-            ReserveAmount reserveAmount = new ReserveAmount(ulong.Parse(str.ToString()));
+            ReserveAmount reserveAmount = new ReserveAmount(ulong.Parse(reserve.ToString()));
         }
         catch (Exception ex)
         {
@@ -66,11 +71,11 @@ public class Main1Model : MonoBehaviour
     }
 
     //積立年数
-    public void AccumulationPeriod(string str)
+    public void AccumulationPeriod(string accumulation)
     {
         try
         {
-            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(str.ToString()));
+            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(accumulation.ToString()));
         }
         catch (Exception ex)
         {
@@ -80,11 +85,11 @@ public class Main1Model : MonoBehaviour
     }
 
     //利率
-    public void CompoundYield(string str)
+    public void CompoundYield(string compound)
     {
         try
         {
-            CompoundYield compoundYield = new CompoundYield(int.Parse(str.ToString()));
+            CompoundYield compoundYield = new CompoundYield(float.Parse(compound.ToString()));
         }
         catch (Exception ex)
         {
@@ -94,51 +99,30 @@ public class Main1Model : MonoBehaviour
     }
 
 
+    //複利計算
+    public ulong Calculation(
+        string initial,
+        string reserve,
+        string accumulation,
+        string compound)
+    {
+        try
+        {
+            InitalAmount initalAmount = new InitalAmount(ulong.Parse(initial.ToString()));
+            ReserveAmount reserveAmount = new ReserveAmount(ulong.Parse(reserve.ToString()));
+            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(accumulation.ToString()));
+            CompoundYield compoundYield = new CompoundYield(int.Parse(compound.ToString()));
 
-
-
-
-
-
-    ////計算時
-    //public ulong YearthCalculation(
-    //    InitalAmount initalAmount,
-    //    ReserveAmount reserveAmount,
-    //    AccumulationPeriod accumulationPeriod,
-    //    CompoundYield compoundYield)
-    //{
-    //    try
-    //    {
-
-    //        YearthCaluculation yearth = new YearthCaluculation(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
-    //        //元金計算
-    //        yearth.PrincipalCalculation();
-    //        yearth.InterestCaluculation();
-
-
-    //        ////繰入後元金
-    //        //foreach (var child in result1)
-    //        //{
-    //        //    Debug.Log(child);
-    //        //}
-    //        //利息
-    //        //foreach (var child in result2)
-    //        //{
-    //        //    Debug.Log(child);
-    //        //}
-    //        //複利後利息
-    //        yearth.TaxCalculation(20.315f);
-
-    //        //税引後元金合計(元金＋複利後利息)
-    //        yearth.ResultCalculation();
-    //        var totalReserverAmaunt = yearth.GetResultAmount();
-    //        return totalReserverAmaunt;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        throw ex;
-    //    }
-    //}
-
+            Amount amount = new Amount(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
+            return _amountApplication.Calculation(amount);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError(ex);
+            throw ex;
+        }
+    }
 
 }
+
+

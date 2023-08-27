@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+//この中でロジックをになっているところをコレクションオブジェクトにするとよりわかりやすくなる
+
 public class YearthRepository
 {
     //月数
@@ -24,12 +26,12 @@ public class YearthRepository
     {
         _principals = new List<ulong>();
 
-        ulong principal = amount.InitalAmount.Amaunt;
+        ulong principal = amount.InitalAmount.Amount;
         for (int i = 0; i < amount.AccumulationPeriod.Value; i++)
         {
             for (ulong j = 0; j < Month; j++)
             {
-                principal += amount.ReserveAmount.Amaunt;
+                principal += amount.ReserveAmount.Amount;
                 _principals.Add(principal);
             }
         }
@@ -43,10 +45,10 @@ public class YearthRepository
         _interests = new List<float>();
 
         //繰越後元金
-        ulong afterPrincipal = amount.InitalAmount.Amaunt;
+        ulong afterPrincipal = amount.InitalAmount.Amount;
 
         //金利
-        float comoundYield = amount.CompoundYield.Value / Percent;
+        float comoundYield = amount.CompoundYield.Percentage();
         float interest = 0;
 
         for (int i = 0; i < amount.AccumulationPeriod.Value; i++)
@@ -54,7 +56,7 @@ public class YearthRepository
             for (int j = 0; j < Month; j++)
             {
                 //積み立て額を加算する
-                afterPrincipal += amount.ReserveAmount.Amaunt;
+                afterPrincipal += amount.ReserveAmount.Amount;
                 _afterPrincipals.Add(afterPrincipal);
 
                 interest += Mathf.Floor(afterPrincipal * (comoundYield / Month));

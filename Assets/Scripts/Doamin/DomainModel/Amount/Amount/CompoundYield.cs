@@ -4,33 +4,33 @@ using UnityEngine;
 [Serializable]
 public class CompoundYield
 {
-    [SerializeField] int _value;
-    public int Value => _value;
+    [SerializeField] float _value;
+    public float Value => _value;
 
-    private const int Min = 0;
+    private const byte Min = 0;
+    private const byte Max = 20;
 
-    public CompoundYield(int value)
+    public CompoundYield(float value)
     {
         if (value < Min)
         {
             throw new ArgumentException("利回りは0以上を指定してください");
         }
 
-        //少数で受け取って、小数点第一は切り捨てて代入するのがいいのかな？
-
+        if (value > Max)
+        {
+            throw new ArgumentException("利回りは20以下を指定してください");
+        }
 
         this._value = value;
     }
 
-    //百分率計算を置いておくのが良さげ
-    //Percentage();
+    //百分率
+    private const float Percent = 100.0f;
 
-    public bool CheckInstance()
+    public float Percentage()
     {
-        if (ReferenceEquals(this, null))
-        {
-            return false;
-        }
-        return true;
+        return _value / Percent;
     }
+
 }
