@@ -56,42 +56,42 @@ public class YearthRepository
         return principals;
     }
 
-    //複利計算(月利)
-    public (List<ulong>, List<float>) InterestCaluculation()
-    {
-        _afterPrincipals = new List<ulong>();
-        _interests = new List<float>();
+    ////複利計算(月利)
+    //public (List<ulong>, List<float>) InterestCaluculation()
+    //{
+    //    _afterPrincipals = new List<ulong>();
+    //    _interests = new List<float>();
 
-        //繰越後元金
-        ulong afterPrincipal = _initalAmount.Amount;
+    //    //繰越後元金
+    //    ulong afterPrincipal = _initalAmount.Amount;
 
-        //金利
-        float comoundYield = _compoundYield.Value / 100.0f;
-        float rate = 0;
-        float interest = 0;
+    //    //金利
+    //    float comoundYield = _compoundYield.Value / 100.0f;
+    //    float rate = 0;
+    //    float interest = 0;
 
-        for (int i = 0; i < _accumulationPeriod.Value; i++)
-        {
-            for (int j = 0; j < Month; j++)
-            {
-                //積み立て額を加算する
-                afterPrincipal += _reserveAmount.Amount;
+    //    for (int i = 0; i < _accumulationPeriod.Value; i++)
+    //    {
+    //        for (int j = 0; j < Month; j++)
+    //        {
+    //            //積み立て額を加算する
+    //            afterPrincipal += _reserveAmount.Amount;
 
-                //繰越元金を計算する
-                afterPrincipal += (ulong)rate;
-                rate = afterPrincipal * (comoundYield / 12);
-                _afterPrincipals.Add(afterPrincipal);
+    //            //繰越元金を計算する
+    //            afterPrincipal += (ulong)rate;
+    //            rate = afterPrincipal * (comoundYield / 12);
+    //            _afterPrincipals.Add(afterPrincipal);
 
-                //金利データを計算する
-                interest += Mathf.Floor(afterPrincipal * (comoundYield / 12));
-                _interests.Add((int)interest);
-            }
-        }
+    //            //金利データを計算する
+    //            interest += Mathf.Floor(afterPrincipal * (comoundYield / 12));
+    //            _interests.Add((int)interest);
+    //        }
+    //    }
 
-        var result1 = new List<ulong>(_afterPrincipals);
-        var result2 = new List<float>(_interests);
-        return (result1, result2);
-    }
+    //    var result1 = new List<ulong>(_afterPrincipals);
+    //    var result2 = new List<float>(_interests);
+    //    return (result1, result2);
+    //}
 
     //税金計算
     public List<ulong> TaxCalculation(float tax)

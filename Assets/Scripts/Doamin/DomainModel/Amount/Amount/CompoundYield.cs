@@ -4,13 +4,13 @@ using UnityEngine;
 [Serializable]
 public class CompoundYield
 {
-    [SerializeField] float _value;
-    public float Value => _value;
+    [SerializeField] decimal _value;
+    public decimal Value => _value;
 
     private const byte Min = 0;
     private const byte Max = 20;
 
-    public CompoundYield(float value)
+    public CompoundYield(decimal value)
     {
         if (value < Min)
         {
@@ -19,16 +19,16 @@ public class CompoundYield
 
         if (value > Max)
         {
-            throw new ArgumentException("利回りは20以下を指定してください");
+            throw new ArgumentException("利回りは8以下を指定してください");
         }
 
         this._value = value;
     }
 
     //百分率
-    private const float Percent = 100.0f;
+    private const decimal Percent = 100.0m;
 
-    public float Percentage()
+    public decimal Percentage()
     {
         return _value / Percent;
     }

@@ -40,7 +40,7 @@ public class Main1View : MonoBehaviour
     [SerializeField] TextMeshProUGUI _errorCompoundYieldText;
     public TextMeshProUGUI ErrorCompoundYieldText => _errorCompoundYieldText;
 
-    public void SetTotalReserveAmount(ulong result)
+    public void SetTotalReserveAmount(decimal result)
     {
         _totalReserveAmountText.text = result.ToString("N0") + "円";
     }

@@ -11,8 +11,6 @@ using Zenject;
 //期間　1~50年
 //利回り　年利1~20%
 
-//最終計算後の数値がulong範囲内かを確認する
-
 public class Main1Model : MonoBehaviour
 {
 
@@ -78,7 +76,7 @@ public class Main1Model : MonoBehaviour
     {
         try
         {
-            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(float.Parse(accumulation.ToString()));
+            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(byte.Parse(accumulation.ToString()));
         }
         catch (Exception ex)
         {
@@ -92,7 +90,7 @@ public class Main1Model : MonoBehaviour
     {
         try
         {
-            CompoundYield compoundYield = new CompoundYield(float.Parse(compound.ToString()));
+            CompoundYield compoundYield = new CompoundYield(decimal.Parse(compound.ToString()));
         }
         catch (Exception ex)
         {
@@ -103,7 +101,7 @@ public class Main1Model : MonoBehaviour
 
 
     //複利計算
-    public ulong Calculation(
+    public decimal Calculation(
         string initial,
         string reserve,
         string accumulation,
@@ -113,8 +111,8 @@ public class Main1Model : MonoBehaviour
         {
             InitalAmount initalAmount = new InitalAmount(ulong.Parse(initial.ToString()));
             ReserveAmount reserveAmount = new ReserveAmount(ulong.Parse(reserve.ToString()));
-            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(accumulation.ToString()));
-            CompoundYield compoundYield = new CompoundYield(float.Parse(compound.ToString()));
+            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(byte.Parse(accumulation.ToString()));
+            CompoundYield compoundYield = new CompoundYield(decimal.Parse(compound.ToString()));
 
             Amount amount = new Amount(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
             return _amountApplication.Calculation(amount);

@@ -8,7 +8,7 @@ public class ReserveAmount
     public ulong Amount => _amount;
 
     private const byte Min = 0;
-    private const byte DigitMax = 7;
+    private const byte DigitMax = 8;
 
     public ReserveAmount(ulong amount)
     {
@@ -19,7 +19,7 @@ public class ReserveAmount
 
         if (DigitMax < Digit(amount))
         {
-            throw new ArgumentException("初期額は7桁以下を指定してください");
+            throw new ArgumentException("初期額は8桁以下を指定してください");
         }
 
         this._amount = amount;

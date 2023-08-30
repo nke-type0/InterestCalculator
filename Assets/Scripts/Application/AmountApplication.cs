@@ -31,12 +31,11 @@ public class AmountApplication
     }
 
     //入力されたものを計算処理
-    public ulong Calculation(Amount amount)
+    public decimal Calculation(Amount amount)
     {
         _yearthRepository.PrincipalsCalculation(amount);
         _yearthRepository.InterestCaluculation(amount);
-        _yearthRepository.AfterPrincipalsCalculation(amount);
-        return _yearthRepository.GetResultAmount();
+        return _yearthRepository.GetResultCalculation();
     }
 
 

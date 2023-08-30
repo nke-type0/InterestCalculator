@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using UnityEngine;
 
 //ロジック部分をコレクションオブジェクトやドメイン側にうつすとよりよくなりそうだが、、、
@@ -13,57 +15,65 @@ public class MonthRepository
     //月数
     private const int Month = 12;
 
-    private List<ulong> _principals = new List<ulong>();
-    private List<float> _interests = new List<float>();
-    private List<ulong> _afterPrincipals = new List<ulong>();
-
+    private List<decimal> _principals = new List<decimal>();
+    private List<decimal> _interests = new List<decimal>();
+    private List<decimal> _afterPrincipals = new List<decimal>();
 
     //元本計算
     public void PrincipalsCalculation(Amount amount)
     {
-        _principals = new List<ulong>();
+        _principals = new List<decimal>();
 
         var principal = amount.InitalAmount.Amount;
 
-        for (int i = 0; i < amount.AccumulationPeriod.Value * Month; i++)
+        for (int i = 0; i < amount.AccumulationPeriod.Value; i++)
         {
-            principal += amount.ReserveAmount.Amount;
-            _principals.Add(principal);
+            for (int j = 0; j < Month; j++)
+            {
+                principal += amount.ReserveAmount.Amount;
+                //Debug.Log(principal);
+                _principals.Add(principal);
+            }
         }
     }
 
-    //複利計算(月利)
+
+    //繰入後元金計算(複利計算のため、繰入後元金を求め、利息を算出するため少しややこしい、あまりよくない)
     public void InterestCaluculation(Amount amount)
     {
-        _interests = new List<float>();
+        _interests = new List<decimal>();
+        _afterPrincipals = new List<decimal>();
 
-        var comoundYield = amount.CompoundYield.Percentage();
+        decimal principal = amount.InitalAmount.Amount;
+        decimal comoundYield = amount.CompoundYield.Percentage();
+        decimal saveInterest = 0;
 
-        for (int i = 1; i <= amount.AccumulationPeriod.Value * Month; i++)
+        for (int i = 0; i < amount.AccumulationPeriod.Value; i++)
         {
-            var result = Mathf.Pow(1 + comoundYield,  i);
-            _interests.Add(result);
+            decimal interest = 0;
+            for (int j = 0; j < Month; j++)
+            {
+                principal += amount.ReserveAmount.Amount;
+                //Debug.Log(principal);
+                _afterPrincipals.Add(principal);
+
+                //利計算息
+                interest += principal * (comoundYield / Month);
+                saveInterest += principal * (comoundYield / Month);
+                _interests.Add(saveInterest);
+            }
+            //年間ごとに加算
+            principal += interest;
         }
     }
 
-    //合計
-    public void AfterPrincipalsCalculation(Amount amount)
+    public decimal GetResultCalculation()
     {
-        _afterPrincipals = new List<ulong>();
-
-        for (int i = 0; i < amount.AccumulationPeriod.Value * Month; i++)
-        {
-            var result = (ulong)(_principals[i] * _interests[i]);
-            _afterPrincipals.Add(result);
-        }
-    }
-
-    public ulong GetResultAmount()
-    {
-        return _afterPrincipals.Max();
+        return _principals.Max() + _interests.Max();
     }
 
 }
+
 
 
 
