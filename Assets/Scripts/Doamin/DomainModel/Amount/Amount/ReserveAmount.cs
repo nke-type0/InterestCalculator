@@ -8,7 +8,7 @@ public class ReserveAmount
     public ulong Amount => _amount;
 
     private const byte Min = 0;
-    private const byte DigitMax = 8;
+    private const byte DigitMax = 9;
 
     public ReserveAmount(ulong amount)
     {

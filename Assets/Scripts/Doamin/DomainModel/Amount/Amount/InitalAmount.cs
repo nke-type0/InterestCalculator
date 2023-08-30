@@ -8,7 +8,7 @@ public class InitalAmount
     public ulong Amount => _amount;
 
     private const byte Min = 0;
-    private const byte DigitMax = 9;
+    private const byte DigitMax = 10;
 
     public InitalAmount(ulong amount)
     {
