@@ -19,7 +19,6 @@ public class Main1Presenter : MonoBehaviour
         //初期額
         _main1View.InitialAmountInput.onEndEdit.AsObservable().Subscribe(str =>
         {
-            Debug.Log("!!!" + str);
             _main1View.ErrorInitialAmauntText.gameObject.SetActive(false);
             _main1View.CaluculateButton.Interactable(true);
             _main1Model.InitalAmount(_main1View.InitialAmountInput.text);
@@ -31,7 +30,6 @@ public class Main1Presenter : MonoBehaviour
         //積立額
         _main1View.ReserveAmountInput.onEndEdit.AsObservable().Subscribe(str =>
         {
-            Debug.Log("!!!" + str);
             _main1View.ErrorReserveAmountText.gameObject.SetActive(false);
             _main1View.CaluculateButton.Interactable(true);
             _main1Model.InitalAmount(_main1View.InitialAmountInput.text);
@@ -43,7 +41,6 @@ public class Main1Presenter : MonoBehaviour
         //積立年数
         _main1View.AccumulationPeriodInput.onEndEdit.AsObservable().Subscribe(str =>
         {
-            Debug.Log("!!!" + str);
             _main1View.ErrorAccumulationPeriodText.gameObject.SetActive(false);
             _main1View.CaluculateButton.Interactable(true);
             _main1Model.InitalAmount(_main1View.InitialAmountInput.text);
@@ -55,7 +52,6 @@ public class Main1Presenter : MonoBehaviour
         //利率
         _main1View.CompoundYieldInput.onEndEdit.AsObservable().Subscribe(str =>
         {
-            Debug.Log("!!!" + str);
             _main1View.ErrorCompoundYieldText.gameObject.SetActive(false);
             _main1View.CaluculateButton.Interactable(true);
             _main1Model.InitalAmount(_main1View.InitialAmountInput.text);
