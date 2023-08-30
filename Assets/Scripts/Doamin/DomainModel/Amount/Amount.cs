@@ -63,7 +63,4 @@ public class Amount
     }
 
 
-    //加工、計算、判断
-    //Remove, Addも記述する
-
 }

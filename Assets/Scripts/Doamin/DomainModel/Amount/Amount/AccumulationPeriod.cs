@@ -4,13 +4,13 @@ using UnityEngine;
 [Serializable]
 public class AccumulationPeriod
 {
-    [SerializeField] int _value;
-    public int Value => _value;
+    [SerializeField] float _value;
+    public float Value => _value;
 
     private const byte Min = 1;
     private const byte Max = 50;
 
-    public AccumulationPeriod(int value)
+    public AccumulationPeriod(float value)
     {
         if (value < Min)
         {

@@ -15,7 +15,6 @@ public class Main1Presenter : MonoBehaviour
     {
         //初期化
         _main1View.SetTotalReserveAmount(0);
-        _main1View.CaluculateButton.Interactable(false);
 
         //初期額
         _main1View.InitialAmountInput.onEndEdit.AsObservable().Subscribe(str =>

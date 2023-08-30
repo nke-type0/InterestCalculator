@@ -11,6 +11,8 @@ using Zenject;
 //期間　1~50年
 //利回り　年利1~20%
 
+//最終計算後の数値がulong範囲内かを確認する
+
 public class Main1Model : MonoBehaviour
 {
 
@@ -30,6 +32,7 @@ public class Main1Model : MonoBehaviour
 
     private ReactiveProperty<Exception> _confirmCalcuButtonReact = new ReactiveProperty<Exception>();
     public IObservable<Exception> ConfirmCalcuButtonReact => _confirmCalcuButtonReact.SkipLatestValueOnSubscribe();
+
 
     /// <summary>
     /// DB初期化
@@ -75,7 +78,7 @@ public class Main1Model : MonoBehaviour
     {
         try
         {
-            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(accumulation.ToString()));
+            AccumulationPeriod accumulationPeriod = new AccumulationPeriod(float.Parse(accumulation.ToString()));
         }
         catch (Exception ex)
         {
@@ -111,7 +114,7 @@ public class Main1Model : MonoBehaviour
             InitalAmount initalAmount = new InitalAmount(ulong.Parse(initial.ToString()));
             ReserveAmount reserveAmount = new ReserveAmount(ulong.Parse(reserve.ToString()));
             AccumulationPeriod accumulationPeriod = new AccumulationPeriod(int.Parse(accumulation.ToString()));
-            CompoundYield compoundYield = new CompoundYield(int.Parse(compound.ToString()));
+            CompoundYield compoundYield = new CompoundYield(float.Parse(compound.ToString()));
 
             Amount amount = new Amount(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
             return _amountApplication.Calculation(amount);

@@ -16,7 +16,7 @@ public class Main1Installer : MonoInstaller
 
 
         Container
-            .Bind<YearthRepository>()
+            .Bind<MonthRepository>()
             .AsCached();
 
         Container

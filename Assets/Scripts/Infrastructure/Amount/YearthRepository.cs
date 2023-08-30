@@ -1,109 +1,119 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-//この中でロジックをになっているところをコレクションオブジェクトにするとよりわかりやすくなる
+//同じロジック、似たようなロジックだったとしても概念が違えばDRYにすべきではない
+//DRY的に異なるもの同士を無理にDRYにすると密結合化する
 
+[Serializable]
 public class YearthRepository
 {
-    //月数
-    private const int Month = 12;
-    //百分率
-    private const float Percent = 100.0f;
-    //税金
-    private const float Tax = 20.315f;
+    //初期額
+    [SerializeField]
+    private InitalAmount _initalAmount;
+    //積み立て額
+    [SerializeField]
+    private ReserveAmount _reserveAmount;
+    //積み立て期間
+    [SerializeField]
+    private AccumulationPeriod _accumulationPeriod;
+    //運用利回り
+    [SerializeField]
+    private CompoundYield _compoundYield;
 
-    private List<ulong> _principals = new List<ulong>();
+    private const int Month = 12;
+
     private List<ulong> _afterPrincipals = new List<ulong>();
     private List<float> _interests = new List<float>();
-    private List<ulong> _taxPrincipals = new List<ulong>();
-    private List<ulong> _results = new List<ulong>();
 
+    public YearthRepository(
+        InitalAmount initalAmount,
+        ReserveAmount reserveAmount,
+        AccumulationPeriod accumulationPeriod,
+        CompoundYield compoundYield
+        )
+    {
+        this._initalAmount = initalAmount;
+        this._reserveAmount = reserveAmount;
+        this._accumulationPeriod = accumulationPeriod;
+        this._compoundYield = compoundYield;
+    }
 
     //元本計算
-    public void PrincipalCalculation(Amount amount)
+    public List<ulong> PrincipalCalculation()
     {
-        _principals = new List<ulong>();
+        var principals = new List<ulong>();
 
-        ulong principal = amount.InitalAmount.Amount;
-        for (int i = 0; i < amount.AccumulationPeriod.Value; i++)
+        ulong principal = _initalAmount.Amount;
+        for (int i = 0; i < _accumulationPeriod.Value; i++)
         {
             for (ulong j = 0; j < Month; j++)
             {
-                principal += amount.ReserveAmount.Amount;
-                _principals.Add(principal);
+                principal += _reserveAmount.Amount;
+                principals.Add(principal);
             }
         }
+        return principals;
     }
 
-
-    //複利計算(年利)
-    public void InterestCaluculation(Amount amount)
+    //複利計算(月利)
+    public (List<ulong>, List<float>) InterestCaluculation()
     {
         _afterPrincipals = new List<ulong>();
         _interests = new List<float>();
 
         //繰越後元金
-        ulong afterPrincipal = amount.InitalAmount.Amount;
+        ulong afterPrincipal = _initalAmount.Amount;
 
         //金利
-        float comoundYield = amount.CompoundYield.Percentage();
+        float comoundYield = _compoundYield.Value / 100.0f;
+        float rate = 0;
         float interest = 0;
 
-        for (int i = 0; i < amount.AccumulationPeriod.Value; i++)
+        for (int i = 0; i < _accumulationPeriod.Value; i++)
         {
             for (int j = 0; j < Month; j++)
             {
                 //積み立て額を加算する
-                afterPrincipal += amount.ReserveAmount.Amount;
+                afterPrincipal += _reserveAmount.Amount;
+
+                //繰越元金を計算する
+                afterPrincipal += (ulong)rate;
+                rate = afterPrincipal * (comoundYield / 12);
                 _afterPrincipals.Add(afterPrincipal);
 
-                interest += Mathf.Floor(afterPrincipal * (comoundYield / Month));
+                //金利データを計算する
+                interest += Mathf.Floor(afterPrincipal * (comoundYield / 12));
+                _interests.Add((int)interest);
             }
-
-            //年間金利計算
-            afterPrincipal += (ulong)interest;
-            _interests.Add((int)interest);
         }
+
+        var result1 = new List<ulong>(_afterPrincipals);
+        var result2 = new List<float>(_interests);
+        return (result1, result2);
     }
 
-
     //税金計算
-    public void TaxCalculation()
+    public List<ulong> TaxCalculation(float tax)
     {
-        _taxPrincipals = new List<ulong>();
+        var taxPrincipals = new List<ulong>();
 
         for (int i = 0; i < _interests.Count; i++)
         {
-            var result = (ulong)(_interests[i] * ((100 - Tax) / Percent));
-            _taxPrincipals.Add(result);
+            var result = (ulong)(_interests[i] * ((100 - tax) / 100.0f));
+            taxPrincipals.Add(result);
         }
+
+        return taxPrincipals;
     }
 
-
-    //税引後元金合計(元金＋複利後利息)
-    public void ResultCalculation()
+    public List<ulong> ResultCalculation(List<ulong> principals, List<ulong> taxPrincipals)
     {
-        _results = new List<ulong>();
-
-        int num = 1;
-        int taxNum = 0;
-        foreach (var child in _principals)
-        {
-            if (num % 12 == 0)
-            {
-                var result = child + _taxPrincipals[taxNum++];
-                _results.Add(result);
-                num = 1;
-            }
-            num++;
-        }
+        throw new System.NotImplementedException();
     }
 
-
-    public ulong GetResultAmount()
+    public ulong TotalReverseAmount()
     {
-        return _results.Max();
+        throw new System.NotImplementedException();
     }
 }

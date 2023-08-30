@@ -12,16 +12,16 @@ using System.Linq;
 public class AmountApplication
 {
     private readonly AmountRepository _amountRepository;
-    private readonly YearthRepository _yearthRepository; //これをインターフェースにすれば良いか
+    private readonly MonthRepository _yearthRepository; //これをインターフェースにすれば良いか
     private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
     public AmountApplication(
         AmountRepository amountRepository,
-        YearthRepository yearthCaluculation
+        MonthRepository MonthRepository
         )
     {
         this._amountRepository = amountRepository;
-        this._yearthRepository = yearthCaluculation;
+        this._yearthRepository = MonthRepository;
     }
 
     //初期化(Post)ローカルorリモート
@@ -33,10 +33,9 @@ public class AmountApplication
     //入力されたものを計算処理
     public ulong Calculation(Amount amount)
     {
-        _yearthRepository.PrincipalCalculation(amount);
+        _yearthRepository.PrincipalsCalculation(amount);
         _yearthRepository.InterestCaluculation(amount);
-        _yearthRepository.TaxCalculation();
-        _yearthRepository.ResultCalculation();
+        _yearthRepository.AfterPrincipalsCalculation(amount);
         return _yearthRepository.GetResultAmount();
     }
 
