@@ -45,7 +45,7 @@ public class MonthRepository
         _afterPrincipals = new List<decimal>();
 
         decimal principal = amount.InitalAmount.Amount;
-        decimal comoundYield = amount.CompoundYield.Percentage();
+        decimal comoundYield = (decimal)amount.CompoundYield.Percentage();
         decimal saveInterest = 0;
 
         for (int i = 0; i < amount.AccumulationPeriod.Value; i++)

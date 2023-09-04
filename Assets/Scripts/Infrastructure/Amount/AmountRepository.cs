@@ -15,7 +15,6 @@ public class AmountRepository
 
     public AmountRepository(
         AmountScriptableObject amountScriptable
-
     )
     {
         this._amountScriptable = amountScriptable;
@@ -24,7 +23,7 @@ public class AmountRepository
 
 
     //データベース初期化(Post)ローカルorリモート
-    public async UniTask PostAmountAsync()
+    public async UniTask PostAsync()
     {
         try
         {

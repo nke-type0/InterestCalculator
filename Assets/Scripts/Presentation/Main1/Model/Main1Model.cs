@@ -37,7 +37,7 @@ public class Main1Model : MonoBehaviour
     /// </summary>
     private async void Start()
     {
-        await _amountApplication.PostAmountAsync();
+        await _amountApplication.PostAsync();
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ public class Main1Model : MonoBehaviour
     {
         try
         {
-            CompoundYield compoundYield = new CompoundYield(decimal.Parse(compound.ToString()));
+            CompoundYield compoundYield = new CompoundYield(double.Parse(compound.ToString()));
         }
         catch (Exception ex)
         {
@@ -112,7 +112,7 @@ public class Main1Model : MonoBehaviour
             InitalAmount initalAmount = new InitalAmount(ulong.Parse(initial.ToString()));
             ReserveAmount reserveAmount = new ReserveAmount(ulong.Parse(reserve.ToString()));
             AccumulationPeriod accumulationPeriod = new AccumulationPeriod(byte.Parse(accumulation.ToString()));
-            CompoundYield compoundYield = new CompoundYield(decimal.Parse(compound.ToString()));
+            CompoundYield compoundYield = new CompoundYield(double.Parse(compound.ToString()));
 
             Amount amount = new Amount(initalAmount, reserveAmount, accumulationPeriod, compoundYield);
             return _amountApplication.Calculation(amount);

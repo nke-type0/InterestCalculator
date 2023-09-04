@@ -4,13 +4,13 @@ using UnityEngine;
 [Serializable]
 public class CompoundYield
 {
-    [SerializeField] decimal _value;
-    public decimal Value => _value;
+    [SerializeField] double _value;
+    public double Value => _value;
 
     private const byte Min = 0;
     private const byte Max = 20;
 
-    public CompoundYield(decimal value)
+    public CompoundYield(double value)
     {
         if (value < Min)
         {
@@ -26,9 +26,9 @@ public class CompoundYield
     }
 
     //百分率
-    private const decimal Percent = 100.0m;
+    private const double Percent = 100.0f;
 
-    public decimal Percentage()
+    public double Percentage()
     {
         return _value / Percent;
     }

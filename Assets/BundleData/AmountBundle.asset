@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _amountData:
   - _initalAmount:
-      _amaunt: 10000
+      _amount: 0
     _reserveAmount:
-      _amaunt: 10000
+      _amount: 0
     _accumulationPeriod:
-      _value: 2
+      _value: 0
     _compoundYield:
-      _value: 3
+      _value: 0

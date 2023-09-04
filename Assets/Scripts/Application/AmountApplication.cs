@@ -25,9 +25,9 @@ public class AmountApplication
     }
 
     //初期化(Post)ローカルorリモート
-    public async UniTask PostAmountAsync()
+    public async UniTask PostAsync()
     {
-        await _amountRepository.PostAmountAsync();
+        await _amountRepository.PostAsync();
     }
 
     //入力されたものを計算処理
