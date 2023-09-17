@@ -40,9 +40,15 @@ public class Main1View : MonoBehaviour
     [SerializeField] TextMeshProUGUI _errorCompoundYieldText;
     public TextMeshProUGUI ErrorCompoundYieldText => _errorCompoundYieldText;
 
+
     public void SetTotalReserveAmount(decimal result)
     {
         _totalReserveAmountText.text = result.ToString("N0") + "円";
+    }
+
+    public void PrivacyPolicySite()
+    {
+        Application.OpenURL("https://nke-type0.github.io/InterestCalculatorPages/privacypolicy.html");
     }
 
 }
